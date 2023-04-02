@@ -5,12 +5,16 @@ import Otp from './components/manager/pages/Otp';
 import Login from './components/manager/pages/Login';
 import AdminLogin from './components/admin/pages/AdminLogin';
 import ForgetPswrd from './components/manager/pages/ForgetPswrd';
+import ForgotOtp from './components/manager/pages/ForgotOtp';
+import ResetPswrd from './components/manager/pages/ResetPswrd';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
 
   return (
     <div>
       <BrowserRouter>
+        <Toaster position="top-center" />
         <Routes>
           <Route path='/' element={
             <UserLogin />
@@ -26,6 +30,12 @@ function App() {
           } />
           <Route path='/manager/forgot' element={
             <ForgetPswrd />
+          } />
+          <Route path='/manager/reset-otp' element={
+            <ForgotOtp />
+          } />
+          <Route path='/manager/reset-pswrd' element={
+            <ResetPswrd />
           } />
           <Route path='/admin' element={
             <AdminLogin />

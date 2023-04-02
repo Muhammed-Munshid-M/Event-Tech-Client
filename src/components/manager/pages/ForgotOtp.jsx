@@ -1,7 +1,29 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { managerUrl } from '../../../API/Api'
 import Navbar from '../Navbar'
 
-function Otp() {
+function ForgotOtp() {
+    const [otp, setOtp ] = useState('')
+    const navigate = useNavigate()
+    const submitOtp =async (e)=>{
+        e.preventDefault()
+        try {
+            await axios.post(`${managerUrl}reset-otp`,{otp}).then((response)=>{
+                if (response.data.success) {
+                    navigate('/manager/reset-pswrd')
+                    toast.success(response.data.message)
+                } else {
+                    navigate('/manager/reset-otp')
+                    toast.error('Your otp is invalid,Please try again')
+                }
+            })
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return (
         <div>
             <Navbar/>
@@ -15,11 +37,12 @@ function Otp() {
                             <div className="absolute bg-black opacity-60 inset-0 z-0"></div>
                         </div>
                         <div className="w-full py-6 z-20">
-                            <h1 className="my-6 w-auto h-7 sm:h-8 inline-flex font-semibold text-3xl"> Resend Otp
+                            <h1 className="my-6 w-auto h-7 sm:h-8 inline-flex font-semibold text-3xl">Otp
                             </h1>
-                            <form action="" className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
+                            <form onSubmit={submitOtp} className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
                                 <div className="pb-2 pt-4">
-                                    <input type="number" name="otp" id="otp" placeholder="Enter your Otp" className="block w-full p-4 text-lg rounded-sm bg-black" />
+                                    <input type="number" name="otp" id="otp" placeholder="Enter your Otp" value={otp} className="block w-full p-4 text-lg rounded-sm bg-black"
+                                    onChange={(e)=>setOtp(e.target.value)} />
                                 </div>
                                 <div className="px-4 pb-2 pt-4">
                                     <button className="uppercase block w-full p-4 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none" type="submit">submit</button>
@@ -36,4 +59,4 @@ function Otp() {
     )
 }
 
-export default Otp
+export default ForgotOtp

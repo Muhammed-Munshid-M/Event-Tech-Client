@@ -4,6 +4,7 @@ import Navbar from '../Navbar'
 import axios from 'axios'
 import {managerUrl} from '../../../API/Api'
 import './Login.css'
+import { toast } from 'react-hot-toast'
 
 function SignUp() {
     const [name, setName] = useState('')
@@ -22,8 +23,9 @@ function SignUp() {
                     console.log('ok');
                     navigate('/manager/otp')
                     // localStorage.setItem('token',response.data.data)
-                    } else {
-                        navigate('/manager/signUp')
+                    } else if(response.data.exist) {
+                        toast.success(response.data.message)
+                        navigate('/manager')
                         }
                     })
                     .catch((err)=>{
@@ -31,6 +33,7 @@ function SignUp() {
                     })
         } catch (error) {
             console.log(error)
+            toast.error('something error')
         }
     }
 
