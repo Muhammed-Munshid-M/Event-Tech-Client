@@ -8,6 +8,8 @@ import ForgetPswrd from './components/manager/pages/ForgetPswrd';
 import ForgotOtp from './components/manager/pages/ForgotOtp';
 import ResetPswrd from './components/manager/pages/ResetPswrd';
 import { Toaster } from 'react-hot-toast';
+import Dashboard from './components/manager/pages/Dashboard';
+import DashboardAdmin from './components/admin/pages/DashboardAdmin';
 
 function App() {
 
@@ -37,8 +39,14 @@ function App() {
           <Route path='/manager/reset-pswrd' element={
             <ResetPswrd />
           } />
+          <Route path='/manager/dashboard' element={
+            <Dashboard />
+          } />
           <Route path='/admin' element={
             <AdminLogin />
+          } />
+          <Route path='/admin/dashboard' element={
+            <DashboardAdmin />
           } />
         </Routes>
       </BrowserRouter>

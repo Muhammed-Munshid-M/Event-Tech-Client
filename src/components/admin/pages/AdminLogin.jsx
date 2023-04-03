@@ -1,7 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Navbar from '../Navbar'
 
 function AdminLogin() {
+    const [email,setEmail] = useState('')
+    const [password,setPassword] = useState('')
+    const navigate = useNavigate()
+    const verifyLogin = () => {
+        navigate('/admin/dashboard')
+    }
     return (
         <div>
             <Navbar/>
@@ -17,16 +24,15 @@ function AdminLogin() {
                             <div className="w-full py-6 z-20">
                                 <h1 className="my-6 w-auto h-7 sm:h-8 inline-flex font-semibold text-3xl">Admin Login
                                 </h1>
-                                <form action="" className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
+                                <form onSubmit={verifyLogin} className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
                                     <div className="pb-2 pt-4">
-                                        <input type="email" name="email" id="email" placeholder="Email" className="block w-full p-4 text-lg rounded-sm bg-black" />
+                                        <input type="email" name="email" id="email" placeholder="Email" className="block w-full p-4 text-lg rounded-sm bg-black" value={email}
+                                        onChange={(e)=>setEmail(e.target.value)}/>
                                     </div>
                                     <div className="pb-2 pt-4">
-                                        <input className="block w-full p-4 text-lg rounded-sm bg-black" type="password" name="password" id="password" placeholder="Password" />
+                                        <input className="block w-full p-4 text-lg rounded-sm bg-black" type="password" name="password" id="password" placeholder="Password" value={password}
+                                        onChange={(e)=>setPassword(e.target.value)}/>
                                     </div>
-                                    {/* <div className="text-left text-gray-400 hover:underline hover:text-gray-100">
-                                        <a href="#">Forgot your password?</a>
-                                    </div> */}
                                     <div className="px-4 pb-2 pt-4">
                                         <button className="uppercase block w-full p-4 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none" type='submit'>sign in</button>
                                     </div>

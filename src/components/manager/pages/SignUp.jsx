@@ -20,11 +20,9 @@ function SignUp() {
             await axios.post(`${managerUrl}signUp`, userData)
             .then((response) => {
                 if (response.data.success) {
-                    console.log('ok');
                     navigate('/manager/otp')
-                    // localStorage.setItem('token',response.data.data)
                     } else if(response.data.exist) {
-                        toast.success(response.data.message)
+                        toast(response.data.message)
                         navigate('/manager')
                         }
                     })
