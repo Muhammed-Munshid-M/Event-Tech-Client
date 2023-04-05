@@ -19,6 +19,8 @@ function Login() {
                 toast.success(response.data.message)
                 navigate('/manager/dashboard')
                 localStorage.setItem('token', response.data.data)
+            } else if(response.data.approval) {
+                toast.error(response.data.message)
             } else {
                 toast.error(response.data.message)
             }

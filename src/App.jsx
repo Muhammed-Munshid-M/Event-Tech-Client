@@ -10,6 +10,7 @@ import ResetPswrd from './components/manager/pages/ResetPswrd';
 import { Toaster } from 'react-hot-toast';
 import Dashboard from './components/manager/pages/Dashboard';
 import DashboardAdmin from './components/admin/pages/DashboardAdmin';
+import Notification from './components/admin/pages/Notification';
 
 function App() {
 
@@ -47,6 +48,9 @@ function App() {
           } />
           <Route path='/admin/dashboard' element={
             <DashboardAdmin />
+          } />
+          <Route path='/admin/notify' element={
+            <Notification/>
           } />
         </Routes>
       </BrowserRouter>

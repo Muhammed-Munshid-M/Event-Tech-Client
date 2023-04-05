@@ -17,7 +17,7 @@ function Navbar() {
                     <div class="hidden w-full md:block md:w-auto" id="navbar-default">
                         <ul class="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                             <li>
-                                <Link><div class="relative inline-flex w-fit">
+                                <Link to='/admin/notify'><div class="relative inline-flex w-fit">
                                     <div
                                         class="absolute top-0 right-0 bottom-auto left-auto z-10 inline-block translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 rounded-full bg-pink-700 p-2 text-xs"></div>
                                     <div
