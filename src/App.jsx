@@ -5,12 +5,14 @@ import Otp from './components/manager/pages/Otp';
 import Login from './components/manager/pages/Login';
 import AdminLogin from './components/admin/pages/AdminLogin';
 import ForgetPswrd from './components/manager/pages/ForgetPswrd';
-import ForgotOtp from './components/manager/pages/ForgotOtp';
 import ResetPswrd from './components/manager/pages/ResetPswrd';
 import { Toaster } from 'react-hot-toast';
 import Dashboard from './components/manager/pages/Dashboard';
 import DashboardAdmin from './components/admin/pages/DashboardAdmin';
 import Notification from './components/admin/pages/Notification';
+import UserSignUp from './components/user/pages/UserSignUp';
+import UserOtp from './components/user/pages/UserOtp';
+import Home from './components/user/pages/Home';
 
 function App() {
 
@@ -20,7 +22,16 @@ function App() {
         <Toaster position="top-center" />
         <Routes>
           <Route path='/' element={
+            <Home />
+          } />
+          <Route path='/login' element={
             <UserLogin />
+          } />
+          <Route path='/signUp' element={
+            <UserSignUp />
+          } />
+          <Route path='/otp' element={
+            <UserOtp />
           } />
           <Route path='/manager' element={
             <Login />
@@ -33,9 +44,6 @@ function App() {
           } />
           <Route path='/manager/forgot' element={
             <ForgetPswrd />
-          } />
-          <Route path='/manager/reset-otp' element={
-            <ForgotOtp />
           } />
           <Route path='/manager/reset-pswrd' element={
             <ResetPswrd />
@@ -50,7 +58,7 @@ function App() {
             <DashboardAdmin />
           } />
           <Route path='/admin/notify' element={
-            <Notification/>
+            <Notification />
           } />
         </Routes>
       </BrowserRouter>

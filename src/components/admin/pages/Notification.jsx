@@ -6,7 +6,7 @@ import LayoutAdmin from '../LayoutAdmin'
 import Navbar from '../Navbar'
 function Notification() {
   const [manager, setManager] = useState()
-  const [approval, setApproval] = useState(false)
+  const [block, setBlock] = useState(false)
   const [loading, setLoading] = useState(true)
 
   useEffect(()=>{
@@ -15,14 +15,14 @@ function Notification() {
     }, 1000);
   },[])
 
-  const Approval = async (id) => {
-    const response = await axios.post(`${adminUrl}approval?managerId=${id}`,{approval})
-    if (response.data.success) {
+  const Block = async (id) => {
+    const response = await axios.post(`${adminUrl}block?managerId=${id}`,{block})
+    if (response.data.block) {
       toast.success(response.data.message)
-      setApproval(true)
-    } else if(response.data.rejected) {
-      toast.error(response.data.message)
-      setApproval(false)
+      setBlock(true)
+    } else if(response.data.unBlock) {
+      toast.success(response.data.message)
+      setBlock(false)
     } else {
       console.log('error');
     }
@@ -39,7 +39,6 @@ function Notification() {
         console.log(error);
       }
     }
-
     notify()
   }, [])
   return (
@@ -48,7 +47,7 @@ function Notification() {
       <LayoutAdmin>
       {
         loading ? (
-          <div>Loading</div>
+          <div>Please wait...</div>
         ) : (
           <>
         <div>
@@ -67,10 +66,13 @@ function Notification() {
                 Mobile
               </th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Action
+                Acesss
               </th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Details
+                Permission
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Details 
               </th>
             </tr>
           </thead>
@@ -104,20 +106,20 @@ function Notification() {
               ))}
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
-                {approval == false ? (
+                {block == false ? (
               manager.map((data) => (
-                <button onClick={()=>Approval(data._id)} value={approval}
+                <button onClick={()=>Block(data._id)} value={block}
                   class=" custom-select font-weight-bold bg-transparent text-info border-0"
                   name="orderStatus">
-                  Approval
+                  Block
                 </button>
               ))
               ):(
                 manager.map((data) => (
-                  <button onClick={()=>Approval(data._id)} value={approval}
+                  <button onClick={()=>Block(data._id)} value={block}
                     class=" custom-select font-weight-bold bg-transparent text-info border-0"
                     name="orderStatus">
-                    Reject
+                    Un Block
                   </button>
                 ))
               )}

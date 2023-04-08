@@ -1,32 +1,40 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { managerUrl } from '../../../API/Api'
 import Navbar from '../Navbar'
+import { userUrl } from '../../../API/Api'
+import toast, { Toaster } from 'react-hot-toast'
+import OtpInput from 'otp-input-react'
 
-function ForgotOtp() {
-    const [otp, setOtp ] = useState('')
+function UserOtp() {
+    const [otp, setOtp] = useState('')
     const navigate = useNavigate()
-    const submitOtp =async (e)=>{
+    const submitOtp = async (e) => {
         e.preventDefault()
-        try {
-            await axios.post(`${managerUrl}reset-otp`,{otp}).then((response)=>{
-                if (response.data.success) {
-                    navigate('/manager/reset-pswrd')
-                    toast.success(response.data.message)
+        window.confirmationResult.confirm(otp).then((res) => {
+            try {
+                if (res) {
+                    axios.post(`${userUrl}otp`).then((response) => {
+                        if (response.data.success) {
+                            navigate('/login')
+                            toast.success(response.data.message)
+                        } else {
+                            navigate('/otp')
+                            toast.error('Something error')
+                        }
+                    })
                 } else {
-                    navigate('/manager/reset-otp')
                     toast.error('Your otp is invalid,Please try again')
                 }
-            })
-            
-        } catch (error) {
-            console.log(error)
-        }
+            } catch (error) {
+                console.log(error)
+            }
+        })
     }
     return (
         <div>
-            <Navbar/>
+            <Navbar />
+            <Toaster />
             <body className="h-screen overflow-hidden flex items-center justify-center my-20">
                 <section className="min-h-screen flex items-stretch text-white w-3/4">
                     <div className="lg:flex w-1/2 hidden bg-gray-500 bg-no-repeat  relative items-center bg-[url('/dec2.png')]">
@@ -39,13 +47,14 @@ function ForgotOtp() {
                         <div className="w-full py-6 z-20">
                             <h1 className="my-6 w-auto h-7 sm:h-8 inline-flex font-semibold text-3xl">Otp
                             </h1>
-                            <form onSubmit={submitOtp} className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
+                            <form action="" className="sm:w-2/3 w-full px-4 mx-auto lg:px-0">
                                 <div className="pb-2 pt-4">
-                                    <input type="number" name="otp" id="otp" placeholder="Enter your Otp" value={otp} className="block w-full p-4 text-lg rounded-sm bg-black"
-                                    onChange={(e)=>setOtp(e.target.value)} />
+                                    <OtpInput value={otp} onChange={setOtp} OTPLength={6} otpType="number" disabled={false} autoFocus className="opt-container text-black"></OtpInput>
+                                    {/* <input type="number" name="otp" id="otp" placeholder="Enter your Otp" value={otp} className="block w-full p-4 text-lg rounded-sm bg-black" 
+                                    onChange={(e) => setOtp(e.target.value)}/> */}
                                 </div>
                                 <div className="px-4 pb-2 pt-4">
-                                    <button className="uppercase block w-full p-4 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none" type="submit">submit</button>
+                                    <button onClick={submitOtp} className="uppercase block w-full p-4 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none" type="button">Verify OTP</button>
                                 </div>
                                 <div className="px-4 pb-2 pt-4">
                                     <button className="uppercase block w-full p-4 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none" type="submit">resend otp</button>
@@ -59,4 +68,4 @@ function ForgotOtp() {
     )
 }
 
-export default ForgotOtp
+export default UserOtp

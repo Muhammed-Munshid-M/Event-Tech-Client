@@ -10,24 +10,28 @@ function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
-    const userData = { email, password }
+    const managerData = { email, password }
+    
     const verifyLogin = async (e) => {
         e.preventDefault()
         try {
-            const response = await axios.post(`${managerUrl}`, userData)
-            if (response.data.success) {
-                toast.success(response.data.message)
-                navigate('/manager/dashboard')
-                localStorage.setItem('token', response.data.data)
-            } else if(response.data.approval) {
+            const response = await axios.post(`${managerUrl}`, managerData)
+            if (response.data.rejected) {
                 toast.error(response.data.message)
             } else {
-                toast.error(response.data.message)
+                if (response.data.success) {
+                    toast.success(response.data.message)
+                    navigate('/manager/dashboard')
+                    localStorage.setItem('token', response.data.data)
+                } else if (response.data.noUser) {
+                    toast.error(response.data.message)
+                } else {
+                    toast.error(response.data.message)
+                }
             }
         } catch (error) {
             toast.error("Something went wrong")
         }
-
     }
     return (
         <div>
