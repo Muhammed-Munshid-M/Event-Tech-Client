@@ -1,13 +1,16 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../Navbar'
 import { userUrl } from '../../../API/Api'
 import toast, { Toaster } from 'react-hot-toast'
 import OtpInput from 'otp-input-react'
+import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth'
+import { auth } from '../../../firebase/config'
 
 function UserOtp() {
     const [otp, setOtp] = useState('')
+    const [countdown, setCountdown] = useState(0)
     const navigate = useNavigate()
     const submitOtp = async (e) => {
         e.preventDefault()
@@ -31,11 +34,66 @@ function UserOtp() {
             }
         })
     }
+
+    function onCaptchVerify() {
+        if (!window.recaptchaVerifier) {
+            window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
+                'size': 'invisible',
+                callback: (response) => {
+                    // reCAPTCHA solved, allow signInWithPhoneNumber.
+                    // ...
+                },
+                'expired-callback': () => {
+                    // Response expired. Ask user to solve reCAPTCHA again.
+                    // ...
+                }
+            }, auth);
+        }
+    }
+
+    const resendOtp = async (e) => {
+        e.preventDefault()
+        setCountdown(30)
+        try {
+            await axios.post(`${userUrl}resend-otp`).then((response) => {
+                if (response.data.success) {
+                    onCaptchVerify()
+                    let mobile = response.data.data
+                    console.log(mobile);
+                    const formatPhone = '+91' + mobile
+                    const appVerifier = window.recaptchaVerifier;
+                    console.log(appVerifier);
+                    signInWithPhoneNumber(auth, formatPhone, appVerifier)
+                        .then((confirmationResult) => {
+                            window.confirmationResult = confirmationResult;
+                            toast(response.data.message)
+                        }).catch((error) => {
+                            console.log(error);
+                        })
+                } else {
+                    toast.error(response.data.message)
+                }
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        if (countdown > 0) {
+            const timer = setInterval(() => {
+                setCountdown(countdown - 1);
+            }, 1000);
+            return () => clearInterval(timer);
+        }
+    }, [countdown]);
+
     return (
         <div>
             <Navbar />
-            <Toaster />
             <body className="h-screen overflow-hidden flex items-center justify-center my-20">
+                <div id='recaptcha-container'></div>
+                <Toaster toastOptions={{ duration: 4000 }} />
                 <section className="min-h-screen flex items-stretch text-white w-3/4">
                     <div className="lg:flex w-1/2 hidden bg-gray-500 bg-no-repeat  relative items-center bg-[url('/dec2.png')]">
                         <div className="absolute bg-black opacity-60 inset-0 z-0"></div>
@@ -57,7 +115,11 @@ function UserOtp() {
                                     <button onClick={submitOtp} className="uppercase block w-full p-4 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none" type="button">Verify OTP</button>
                                 </div>
                                 <div className="px-4 pb-2 pt-4">
-                                    <button className="uppercase block w-full p-4 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none" type="submit">resend otp</button>
+                                {countdown ? (
+                                        <p disabled={countdown > 0} className="w-full p-4 text-lg">{`Resend OTP in ${countdown} seconds`}</p>
+                                    ) : (
+                                        <button onClick={resendOtp} disabled={countdown > 0} className="uppercase block w-full p-4 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none" type="button">Resend Otp</button>
+                                    )}
                                 </div>
                             </form>
                         </div>

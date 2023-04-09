@@ -17,6 +17,8 @@ function AdminLogin() {
             if (response.data.success) {
                 toast.success(response.data.message)
                 navigate('/admin/dashboard')
+            } else if(response.data.block){
+                toast.error(response.data.message)
             } else {
                 toast.error(response.data.message)
             }

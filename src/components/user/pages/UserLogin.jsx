@@ -54,7 +54,7 @@ function UserLogin() {
                                         onChange={(e)=>setPassword(e.target.value)} />
                                     </div>
                                     <div className="text-left text-gray-400 hover:underline hover:text-gray-100">
-                                        <Link>Forgot your password?</Link>
+                                        <Link to='/forgot'>Forgot your password?</Link>
                                     </div>
                                     <div className="px-4 pb-2 pt-4">
                                         <button className="uppercase block w-full p-4 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none">sign in</button>

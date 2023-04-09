@@ -1,14 +1,18 @@
-import React from 'react'
-import LayoutAdmin from '../LayoutAdmin'
+import React, { useState } from 'react'
+// import LayoutAdmin from '../LayoutAdmin'
 import Navbar from '../Navbar'
+import Sidebar from '../SideBar'
+import LayoutAdmin from '../LayoutAdmin';
 
 function DashboardAdmin() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <LayoutAdmin>
-        <h1>Hello Admin Page</h1>
+        <h1>Hello Admin</h1>
       </LayoutAdmin>
+      {/* <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} /> */}
     </div>
   )
 }

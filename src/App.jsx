@@ -13,6 +13,10 @@ import Notification from './components/admin/pages/Notification';
 import UserSignUp from './components/user/pages/UserSignUp';
 import UserOtp from './components/user/pages/UserOtp';
 import Home from './components/user/pages/Home';
+import ForgotPswrd from './components/user/pages/ForgotPswrd';
+import ResetPassword from './components/user/pages/ResetPswrd';
+import Users from './components/admin/pages/Users';
+import Managers from './components/admin/pages/Managers';
 
 function App() {
 
@@ -32,6 +36,12 @@ function App() {
           } />
           <Route path='/otp' element={
             <UserOtp />
+          } />
+          <Route path='/forgot' element={
+            <ForgotPswrd />
+          } />
+          <Route path='/reset-pswrd' element={
+            <ResetPassword />
           } />
           <Route path='/manager' element={
             <Login />
@@ -59,6 +69,12 @@ function App() {
           } />
           <Route path='/admin/notify' element={
             <Notification />
+          } />
+          <Route path='/admin/users' element={
+            <Users />
+          } />
+          <Route path='/admin/managers' element={
+            <Managers />
           } />
         </Routes>
       </BrowserRouter>

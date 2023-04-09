@@ -20,7 +20,6 @@ function Otp() {
                     axios.post(`${managerUrl}otp`).then((response) => {
                         if (response.data.success) {
                             navigate('/manager')
-                            console.log(response.data.data);
                             toast.success(response.data.message)
                         } else {
                             navigate('/manager/otp')
@@ -68,7 +67,6 @@ function Otp() {
                         .then((confirmationResult) => {
                             window.confirmationResult = confirmationResult;
                             toast(response.data.message)
-                            setShowMobile(false)
                         }).catch((error) => {
                             console.log(error);
                         })

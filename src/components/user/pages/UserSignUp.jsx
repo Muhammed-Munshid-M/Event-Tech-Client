@@ -37,7 +37,6 @@ function UserSignUp() {
         // try {
         await axios.post(`${userUrl}signUp`, userData)
         .then((response) => {
-                console.log('Hiiiiiiiiii');
                 if (response.data.success) {
                     onCaptchVerify()
                     const formatPhone = '+91' + mobile

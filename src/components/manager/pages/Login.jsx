@@ -16,7 +16,7 @@ function Login() {
         e.preventDefault()
         try {
             const response = await axios.post(`${managerUrl}`, managerData)
-            if (response.data.rejected) {
+            if (response.data.block) {
                 toast.error(response.data.message)
             } else {
                 if (response.data.success) {

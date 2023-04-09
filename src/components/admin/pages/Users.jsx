@@ -4,8 +4,9 @@ import { toast } from 'react-hot-toast'
 import { adminUrl } from '../../../API/Api'
 import LayoutAdmin from '../LayoutAdmin'
 import Navbar from '../Navbar'
-function Notification() {
-  const [manager, setManager] = useState()
+function Users() {
+  const [user, setUser] = useState()
+  const [block, setBlock] = useState(false)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -14,18 +15,31 @@ function Notification() {
     }, 1000);
   }, [])
 
+  const Block = async (id) => {
+    const response = await axios.post(`${adminUrl}block-users?userId=${id}`, { block })
+    if (response.data.block) {
+      toast.success(response.data.message)
+      setBlock(true)
+    } else if (response.data.unBlock) {
+      toast.success(response.data.message)
+      setBlock(false)
+    } else {
+      console.log('error');
+    }
+  }
+
   useEffect(() => {
-    const notify = async () => {
+    const users = async () => {
       try {
-        await axios.get(`${adminUrl}notify`).then((response) => {
-          const manager = response.data
-          setManager(manager)
+        await axios.get(`${adminUrl}users`).then((response) => {
+          const user = response.data
+          setUser(user)
         })
       } catch (error) {
         console.log(error);
       }
     }
-    notify()
+    users()
   }, [])
   return (
     <div>
@@ -39,7 +53,7 @@ function Notification() {
               <div class="overflow-x-auto">
                 <div class="inline-block min-w-full">
                   <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                    <h1 className='font-bold text-xl mb-5'>Notifications</h1>
+                    <h1 className='font-bold text-xl mb-5'>Users List</h1>
                     <table class="min-w-full divide-y divide-gray-200">
                       <thead class="bg-gray-50">
                         <tr>
@@ -53,7 +67,7 @@ function Notification() {
                             Mobile
                           </th>
                           <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Permission
+                            Access
                           </th>
                           <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Details
@@ -61,7 +75,7 @@ function Notification() {
                         </tr>
                       </thead>
                       <tbody class="bg-white divide-y divide-gray-200">
-                        {manager.map((data,index) => (
+                        {user.map((data) => (
                           <tr class="hover:bg-gray-100 transition duration-300">
                             <td class="px-6 py-4 whitespace-nowrap">
                               <div class="flex items-center">
@@ -69,27 +83,31 @@ function Notification() {
                                   <img class="h-10 w-10 rounded-full" src="https://via.placeholder.com/150" alt="" />
                                 </div>
                                 <div class="ml-4">
-                                  <div key={index} class="text-sm font-medium text-gray-900">
+                                  <div class="text-sm font-medium text-gray-900">
                                     {data.name}
                                   </div>
-                                  <div key={index} class="text-sm text-gray-500">
+                                  <div class="text-sm text-gray-500">
                                     {data.email}
                                   </div>
                                 </div>
                               </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                              <div key={index} class="text-sm text-gray-900">{data.email}</div>
+                              <div class="text-sm text-gray-900">{data.email}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                              <div key={index} class="text-sm text-gray-900">{data.mobile}</div>
+                              <div class="text-sm text-gray-900">{data.mobile}</div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                              <select name="" id="" class="py-1 px-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="">Pending</option>
-                                <option value="">Approval</option>
-                                <option value="">Reject</option>
-                              </select>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                              {block == false ? (
+                                <button onClick={() => Block(data._id)} value={block} class="custom-select font-weight-bold bg-transparent text-info border-0" name="orderStatus">
+                                  Block
+                                </button>
+                              ) : (
+                                <button onClick={() => Block(data._id)} value={block} class="custom-select font-weight-bold bg-transparent text-info border-0" name="orderStatus">
+                                  Un Block
+                                </button>
+                              )}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                               <a href="#" class="text-indigo-600 hover:text-indigo-900">View</a>
@@ -109,4 +127,4 @@ function Notification() {
   )
 }
 
-export default Notification
+export default Users
