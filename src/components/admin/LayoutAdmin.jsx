@@ -12,7 +12,7 @@ function LayoutAdmin({ children }) {
                         <li class="py-2 px-8 hover:bg-gray-700 cursor-pointer"><Link to='/admin/dashboard'>Dashboard</Link></li>
                         <li class="py-2 px-8 hover:bg-gray-700 cursor-pointer"><Link to='/admin/users'>Users</Link></li>
                         <li class="py-2 px-8 hover:bg-gray-700 cursor-pointer"><Link to='/admin/managers'>Managers</Link></li>
-                        <li class="py-2 px-8 hover:bg-gray-700 cursor-pointer">Services</li>
+                        <li class="py-2 px-8 hover:bg-gray-700 cursor-pointer"><Link to='/admin/companies'>Approval List</Link></li>
                         <li class="py-2 px-8 hover:bg-gray-700 cursor-pointer" onClick={()=>{
                         // localStorage.clear()
                         navigate('/admin')
@@ -23,7 +23,6 @@ function LayoutAdmin({ children }) {
                     {children}
                 </div>
             </div>
-
         </div>
     )
 }

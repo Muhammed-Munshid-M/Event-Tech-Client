@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../Navbar'
 import axios from 'axios'
@@ -11,14 +11,14 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth'
 function SignUp() {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
-    const [aadhar, setAadhar] = useState([])
-    const [voterId, setVoterId] = useState([])
     const [mobile, setMobile] = useState('')
-    const [license, setLicence] = useState([])
+    const [company, setCompany] = useState('')
     const [address, setAddress] = useState('')
     const [password, setPassword] = useState('')
+    const [aadhar, setAadhar] = useState([])
+    const [licenseVoterId, setLicenseVoterId] = useState([])
     const navigate = useNavigate()
-    const managerData = { name, email, mobile, password }
+    const managerData = { name, email, mobile, company,address, password, aadhar,licenseVoterId }
 
     function onCaptchVerify() {
         if (!window.recaptchaVerifier) {
@@ -35,6 +35,10 @@ function SignUp() {
             }, auth);
         }
     }
+
+    // useEffect(()=>{
+
+    // },[])
 
     const sendOtp = async (e) => {
         e.preventDefault()
@@ -56,6 +60,7 @@ function SignUp() {
                     } else if (response.data.exist) {
                         toast(response.data.message)
                         navigate('/manager')
+                        
                     } else {
                         toast.error('something error')
                         navigate('/manager/signUp')
@@ -102,14 +107,14 @@ function SignUp() {
                                         onChange={(e) => setEmail(e.target.value)} />
                                 </div>
                                 <div className="pb-1 pt-2">
-                                    <label className='text-left text-gray-400 ps-2' htmlFor="">Aadhar card <span className='text-red-600'>*</span></label>
-                                    <input className="block w-full mt-2 p-4 text-lg rounded-sm bg-black" value={aadhar} type="file" name="mobile" id="mobile" placeholder="Adhar"
+                                    <label className='text-left text-gray-400 ps-2' htmlFor="image">Aadhar card <span className='text-red-600'>*</span></label>
+                                    <input className="block w-full mt-2 p-4 text-lg rounded-sm bg-black" type="file" name="aadhar" id="aadhar" placeholder="Adhar"
                                         onChange={(e) => setAadhar(e.target.files[0])} />
                                 </div>
                                 <div className="pb-1 pt-2">
-                                    <label className='text-left text-gray-400 ps-2' htmlFor="">Voter Id card</label>
-                                    <input className="block w-full p-4 text-lg rounded-sm bg-black mt-2" value={voterId} type="file" name="mobile" id="mobile" placeholder="Mobile"
-                                        onChange={(e) => setVoterId(e.target.files[0])} />
+                                    <label className='text-left text-gray-400 ps-2' htmlFor="">License or Voter Id card</label>
+                                    <input className="block w-full p-4 text-lg rounded-sm bg-black mt-2" value={licenseVoterId} type="file" name="mobile" id="mobile" placeholder="Mobile"
+                                        onChange={(e) => setLicenseVoterId(e.target.files[0])} />
                                 </div>
                             </div>
                         </div>
@@ -126,9 +131,9 @@ function SignUp() {
                                         onChange={(e) => setAddress(e.target.value)} />
                                 </div>
                                 <div className="pb-1 pt-2">
-                                    <label className='text-left text-gray-400 ps-2' htmlFor="">License card</label>
-                                    <input className="block w-full p-4 text-lg rounded-sm bg-black mt-2" value={license} type="file" name="mobile" id="mobile" placeholder="Adhar"
-                                        onChange={(e) => setLicence(e.target.files[0])} />
+                                    <label className='text-left text-gray-400 ps-2' htmlFor="">Company Name <span className='text-red-600'>*</span></label>
+                                    <input className="block w-full p-4 text-lg rounded-sm bg-black mt-2" value={company} type="text" name="company" id="company" placeholder="Company Name"
+                                        onChange={(e) => setCompany(e.target.value)} />
                                 </div>
                                 <div className="pb-1 pt-2">
                                     <label className='text-left text-gray-400 ps-2' htmlFor="">Password <span className='text-red-600'>*</span></label>

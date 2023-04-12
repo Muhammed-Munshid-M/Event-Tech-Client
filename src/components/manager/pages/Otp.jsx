@@ -17,15 +17,21 @@ function Otp() {
         window.confirmationResult.confirm(otp).then((res) => {
             try {
                 if (res) {
-                    axios.post(`${managerUrl}otp`).then((response) => {
-                        if (response.data.success) {
-                            navigate('/manager')
-                            toast.success(response.data.message)
-                        } else {
-                            navigate('/manager/otp')
-                            toast.error('Something error')
-                        }
-                    })
+                    // let imageData;
+                    // const reader = new FileReader()
+                    // reader.readAsDataURL(aadhar)
+                    // reader.onloadend = () =>{
+                    //     imageData = reader.result;
+                        axios.post(`${managerUrl}otp`).then((response) => {
+                            if (response.data.success) {
+                                navigate('/manager')
+                                toast.success(response.data.message)
+                            } else {
+                                navigate('/manager/otp')
+                                toast.error('Something error')
+                            }
+                        })
+                    // }
                 } else {
                     toast.error('Your otp is invalid,Please try again')
                 }

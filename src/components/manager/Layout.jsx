@@ -11,7 +11,7 @@ function Layout({ children }) {
                     <ul class="list-none p-0">
                         <li class="py-2 px-8 hover:bg-gray-700 cursor-pointer">Dashboard</li>
                         <li class="py-2 px-8 hover:bg-gray-700 cursor-pointer">Users</li>
-                        <li class="py-2 px-8 hover:bg-gray-700 cursor-pointer">Products</li>
+                        <li class="py-2 px-8 hover:bg-gray-700 cursor-pointer">Services</li>
                         <li class="py-2 px-8 hover:bg-gray-700 cursor-pointer" onClick={()=>{
                         localStorage.clear()
                         navigate('/manager')
